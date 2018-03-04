@@ -25,7 +25,8 @@ else
   gv_curl=${gv_curl/"zh-CN,zh"/"en-US,en"}
   gv_curl=${gv_curl/"mid=2"/"mid=6"}
   gv_curl=${gv_curl/"true%5D"/"%22%2B1${placeholder}%22%2Ctrue%2C%22%22%5D"}
-  echo "$gv_curl -s" > "$GV_CURL_FILE"
+  gv_curl="$gv_curl -s"
+  echo "$gv_curl" > "$GV_CURL_FILE"
 fi
 
 
@@ -56,7 +57,8 @@ for (( i=1; i>0; i++ ))
 do
   chalk -n "[`date +'%Y-%m-%d %H:%M:%S'`] " -white "#$i " -gray "try to submit post...  "
   if [ "$(eval $gv_curl)" != "$ERROR_REQ" ]; then
-    cost_time=timeto $((`date +%s` - begin_time))
+    cost_time=$((`date +%s` - begin_time))
+    cost_time=$(timeto $cost_time)
     chalk " - " -yellow "END."
     chalk
     chalk "NOT known that " -green "successed" -gray " or " -red "failed" \
@@ -66,7 +68,6 @@ do
   else
     cost_time=$((`date +%s` - begin_time))
     cost_time=$(timeto $cost_time)
-    echo "cost_time $cost_time"
     chalk " - " -red "failed. " -gray "[pass ${cost_time}]"
   fi
   sleep 0.6s
