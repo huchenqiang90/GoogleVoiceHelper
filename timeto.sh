@@ -38,7 +38,7 @@ timeto(){
 
   local ARGS=`getopt -n $SCRIPTNAME -o f:t:h -l from:,to:,humanize,help -- "$@"`
   if [ $? -ne 0 ]; then show_help; exit 1; fi
-  set -- $ARGS
+  eval set -- $ARGS
 
   while true ; do
     case "$1" in

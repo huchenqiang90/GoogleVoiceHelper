@@ -22,7 +22,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-set -- $ARGS
+eval set -- $ARGS
 
 while true ; do
   case "$1" in
@@ -77,13 +77,14 @@ begin_time=`date +%s`
 for (( i=1; i>0; i++ ))
 do
   chalk -n "[`date +'%Y-%m-%d %H:%M:%S'`] " -wt "#$i " -gy "submit post with num ${gv_num}..."
-  response="$(eval $gv_curl)"
+  response=`$gv_curl`
   cost_time=$((`date +%s` - begin_time))
   cost_time=$(timeto $cost_time)
   if [ "$response" == "$ERROR_RES" ]; then
     chalk " - " -r "failed. " -gy "[running ${cost_time}]"
   else
     chalk " - " -yl "END. " -gy "[running ${cost_time}]"
+    chalk -wt "Endding response is: " -gy "[$response]"
     chalk
     chalk "NOT known that " -g "successed" -gy " or " -r "failed" \
           -gray ", plz check your gmail."
