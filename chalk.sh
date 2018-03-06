@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 chalk(){
   local NORMAL="\033[0m"
@@ -15,41 +15,41 @@ chalk(){
   for var in "$@"
   do
     case "$var" in
-      -black)
+      -bk|-black)
         echo -ne "$BLACK"
       ;;
-      -red)
+      -r|-red)
         echo -ne "$RED"
       ;;
-      -green)
+      -g|-green)
         echo -ne "$GREEN"
       ;;
-      -yellow)
+      -yl|-yellow)
         echo -ne "$YELLOW"
       ;;
-      -blue)
+      -b|-blue)
         echo -ne "$BLUE"
       ;;
-      -purple)
+      -pl|-purple)
         echo -ne "$PURPLE"
       ;;
-      -cyan)
+      --cy|cyan)
         echo -ne "$CYAN"
       ;;
-      -white) 
+      -wt|-white) 
         echo -ne "$WHITE"
       ;;
-      -gray) 
+      -gy|-gray) 
         echo -ne "$NORMAL"
       ;;
       -h|-help|--help)
         echo "Chalk is a colorful extension of echo"
-        echo "Version 0.0.3"
+        echo 
         echo "Usage: chalk -color1 message1 -color2 message2 ..."
         echo "eg:    chalk -red message_1 [ -blue message2 ]"
         echo -n "colors: "
-        $0 -black "black " -red "red " -green "green " -yellow "yellow "\
-          -blue "blue " -purple "purple " -cyan "cyan " -white "white " -gray "gray "
+        $0 -black "bk|black " -red "r|red " -green "g|green " -yellow "yl|yellow "\
+          -blue "b|blue " -purple "pl|purple " -cyan "cy|cyan " -white "wt|white " -gray "gy|gray "
         exit 0
       ;;
       -n|--nowarp)
