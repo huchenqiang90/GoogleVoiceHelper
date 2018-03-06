@@ -14,7 +14,6 @@ PLACEHOLDER='0123456789'
 ERROR_RES='[[null,null,"There was an error with your request. Please try again."]]'
 
 show_help(){ cat README.md; }
-
 ARGS=`getopt -n $SCRIPTNAME -o t:dh -l time:,daemon,help -- "$@"`
 
 if [ $? -ne 0 ]; then
@@ -27,7 +26,7 @@ eval set -- $ARGS
 while true ; do
   case "$1" in
     -t|--time) interval="$2"; shift 2;;
-    -d|--daemon) deamon=true; shift;;
+    -d|--daemon) daemon=true; shift;;
     -h|--help) show_help; exit 1;;
     --) shift; break;;
     *) echo "unknown option $1, plase check usage in help: \`$SCRIPTNAME --help\`"; exit 1;;
@@ -68,16 +67,21 @@ else
   fi
 fi
 
-LOG_FILE="gv-${gv_num}.log"
-gv_curl=${gv_curl/"%2B1${PLACEHOLDER}%22"/"%2B1${gv_num}%22"}
+if $daemon; then
+  trap "" HUP
+  LOG_FILE="gv-${gv_num}.log"
+  chalk "GV helper is run in daemon mode, and the log is save to " -wt "$LOG_FILE"
+  exec 1>>"$LOG_FILE" 2>&1
+fi
 
+chalk "\n" -wt "[`date +'%Y-%m-%d %H:%M:%S'`] " -gy "GV Helper start, apply for number " -wt "${gv_num}"
 
 begin_time=`date +%s`
-
+gv_curl=${gv_curl/"%2B1${PLACEHOLDER}%22"/"%2B1${gv_num}%22"}
 for (( i=1; i>0; i++ ))
 do
   chalk -n "[`date +'%Y-%m-%d %H:%M:%S'`] " -wt "#$i " -gy "submit post with num ${gv_num}..."
-  response=`$gv_curl`
+  response="$(eval $gv_curl)"
   cost_time=$((`date +%s` - begin_time))
   cost_time=$(timeto $cost_time)
   if [ "$response" == "$ERROR_RES" ]; then
@@ -88,7 +92,7 @@ do
     chalk
     chalk "NOT known that " -g "successed" -gy " or " -r "failed" \
           -gray ", plz check your gmail."
-    chalk "totallt tried " -g "$i" -gy " times, and costed " -g "${cost_time}."
+    chalk "total tried " -g "$i" -gy " times, and costed " -g "${cost_time}."
     exit 0
   fi
   sleep "$interval"

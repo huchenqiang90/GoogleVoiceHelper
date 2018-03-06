@@ -33,7 +33,7 @@ chalk(){
       -pl|-purple)
         echo -ne "$PURPLE"
       ;;
-      --cy|cyan)
+      -cy|-cyan)
         echo -ne "$CYAN"
       ;;
       -wt|-white) 
@@ -42,14 +42,15 @@ chalk(){
       -gy|-gray) 
         echo -ne "$NORMAL"
       ;;
-      -h|-help|--help)
+      -h|--help)
         echo "Chalk is a colorful extension of echo"
         echo 
         echo "Usage: chalk -color1 message1 -color2 message2 ..."
-        echo "eg:    chalk -red message_1 [ -blue message2 ]"
+        echo "   eg: chalk -red message_1 [ -blue message2 ]"
+        echo 
         echo -n "colors: "
-        $0 -black "bk|black " -red "r|red " -green "g|green " -yellow "yl|yellow "\
-          -blue "b|blue " -purple "pl|purple " -cyan "cy|cyan " -white "wt|white " -gray "gy|gray "
+        $0 -black "black|bk " -red "red|r " -green "green|g " -yellow "yellow|y " -blue "blue|b "
+        $0 "        " -purple "purple|pl " -cyan "cyan|cy " -white "white|wt " -gray "gray|gy "
         exit 0
       ;;
       -n|--nowarp)

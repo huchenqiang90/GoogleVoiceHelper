@@ -1,4 +1,4 @@
-# GV helper
+# GoogleVoice helper
 
 a helper for signup a Google Voice number
 
@@ -15,7 +15,7 @@ a helper for signup a Google Voice number
 
 Options:
   -t, --time=time       interval submit time, suffix same as sleep
-  -d, --daemon          daemon mode, log is save to `gv-<number>.log`
+  -d, --daemon          daemon mode, to omit SIGHUP, log is save to `gv-<number>.log`
   -h, --help            show this help message and exit
 
 Example:
@@ -33,5 +33,5 @@ only if the file **NOT EXIST** that you need input curl or number,
 but always you can use the number argument to override the `gv-number` file.
 
 the way to get the curl command in Chrome: 
-`voice.google.com` -> `Legacy Google Voice` -> `Settings` -> `DeveloperS Tools - Network` -> `POST: https://www.google.com/voice/b/0/service/post` -> `Copy all as cURL (bash)`
+`voice.google.com` -> `Legacy Google Voice` -> `Settings` -> `DeveloperS Tools - Network` -> `POST: https://www.google.com/voice/b/0/service/post` -> `Copy as cURL (bash)`
 

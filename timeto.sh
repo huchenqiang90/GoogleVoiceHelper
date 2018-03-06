@@ -18,22 +18,22 @@ timeto(){
   local duration=(0 0 0 0 0)
   
   show_help(){
-    cat <<-END
-		display passed seconds to more friendly time format
+    cat <<-EOF
+		timeto: display passed seconds to more friendly time format
 
 		Usage: 
 		  timeto [second] [OPTION]...
 		  timeto second
 		  timeto second -h
 		  timeto -f start -t end
-		  `timeto second` == `timeto -f 0 -t second``
+		  timeto second == timeto -f 0 -t second
 
 		Options:
 		  -f, --from            from relative start moment, second, 0 is default
 		  -t, --to              to the relative end moment, second, 0 is default
 		  -h, --humanize        print duration in human readable format 
 		                        (e.g., a few seconds, 2 minutes, 4 hours)
-		END
+		EOF
   }
 
   local ARGS=`getopt -n $SCRIPTNAME -o f:t:h -l from:,to:,humanize,help -- "$@"`
