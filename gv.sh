@@ -3,6 +3,7 @@
 . loader.sh
 load chalk.sh
 load timeto.sh
+load daemon.sh
 
 
 interval=0.6s
@@ -67,34 +68,36 @@ else
   fi
 fi
 
+gv_start(){
+  chalk "\n" -wt "[`date +'%Y-%m-%d %H:%M:%S'`] " -gy "GV Helper start, apply for number " -wt "${gv_num}"
+
+  begin_time=`date +%s`
+  gv_curl=${gv_curl/"%2B1${PLACEHOLDER}%22"/"%2B1${gv_num}%22"}
+  for (( i=1; i>0; i++ ))
+  do
+    chalk -n "[`date +'%Y-%m-%d %H:%M:%S'`] " -wt "#$i " -gy "submit post with num ${gv_num}..."
+    response="$(eval $gv_curl)"
+    cost_time=$((`date +%s` - begin_time))
+    cost_time=$(timeto $cost_time)
+    if [ "$response" == "$ERROR_RES" ]; then
+      chalk " - " -r "failed. " -gy "[running ${cost_time}]"
+    else
+      chalk " - " -yl "END. " -gy "[running ${cost_time}]"
+      chalk -wt "Endding response is: " -gy "[$response]"
+      chalk
+      chalk "NOT known that " -g "successed" -gy " or " -r "failed" \
+            -gray ", plz check your gmail."
+      chalk "total tried " -g "$i" -gy " times, and costed " -g "${cost_time}."
+      exit 0
+    fi
+    sleep "$interval"
+  done
+}
+
 if $daemon; then
-  trap "" HUP
-  LOG_FILE="gv-${gv_num}.log"
-  chalk "GV helper is run in daemon mode, and the log is save to " -wt "$LOG_FILE"
-  exec 1>>"$LOG_FILE" 2>&1
+  logfile="gv-${gv_num}.log"
+  chalk "GV helper is run in daemon mode, and the log is save to " -wt "$logfile"
+  daemon gv_start "$logfile"
+else
+  gv_start
 fi
-
-chalk "\n" -wt "[`date +'%Y-%m-%d %H:%M:%S'`] " -gy "GV Helper start, apply for number " -wt "${gv_num}"
-
-begin_time=`date +%s`
-gv_curl=${gv_curl/"%2B1${PLACEHOLDER}%22"/"%2B1${gv_num}%22"}
-for (( i=1; i>0; i++ ))
-do
-  chalk -n "[`date +'%Y-%m-%d %H:%M:%S'`] " -wt "#$i " -gy "submit post with num ${gv_num}..."
-  response="$(eval $gv_curl)"
-  cost_time=$((`date +%s` - begin_time))
-  cost_time=$(timeto $cost_time)
-  if [ "$response" == "$ERROR_RES" ]; then
-    chalk " - " -r "failed. " -gy "[running ${cost_time}]"
-  else
-    chalk " - " -yl "END. " -gy "[running ${cost_time}]"
-    chalk -wt "Endding response is: " -gy "[$response]"
-    chalk
-    chalk "NOT known that " -g "successed" -gy " or " -r "failed" \
-          -gray ", plz check your gmail."
-    chalk "total tried " -g "$i" -gy " times, and costed " -g "${cost_time}."
-    exit 0
-  fi
-  sleep "$interval"
-done
-
