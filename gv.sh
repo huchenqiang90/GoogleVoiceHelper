@@ -44,7 +44,7 @@ else
   echo
   gv_curl=${gv_curl/"zh-CN,zh"/"en-US,en"}
   gv_curl=${gv_curl/"mid=2"/"mid=6"}
-  gv_curl=${gv_curl/"true%5D"/"%22%2B1${PLACEHOLDER}%22%2Ctrue%2C%22%22%5D"}
+  gv_curl=${gv_curl/"%2Ctrue%5D"/"%2C%22%2B1${PLACEHOLDER}%22%2Ctrue%2C%22%22%5D"}
   gv_curl="$gv_curl -s"
   echo "$gv_curl" > "$GV_CURL_FILE"
 fi
@@ -73,8 +73,7 @@ gv_start(){
 
   begin_time=`date +%s`
   gv_curl=${gv_curl/"%2B1${PLACEHOLDER}%22"/"%2B1${gv_num}%22"}
-  for (( i=1; i>0; i++ ))
-  do
+  for (( i=1; i>0; i++ )); do
     chalk -n "[`date +'%Y-%m-%d %H:%M:%S'`] " -wt "#$i " -gy "submit post with num ${gv_num}..."
     response="$(eval $gv_curl)"
     cost_time=$((`date +%s` - begin_time))
@@ -97,7 +96,7 @@ gv_start(){
 if $daemon; then
   logfile="gv-${gv_num}.log"
   chalk "GV helper is run in daemon mode, and the log is save to " -wt "$logfile"
-  daemon gv_start "$logfile"
+  daemonify gv_start "$logfile"
 else
   gv_start
 fi

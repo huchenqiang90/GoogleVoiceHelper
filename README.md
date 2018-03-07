@@ -2,9 +2,15 @@
 
 a helper for signup a Google Voice number
 
+## Install by one line
+
+```bash
+curl -sL https://git.io/gv | bash
+```
+
 ## Usage
 
-1. download this repository
+1. clone or download this repository
 2. run the `gv.sh` script
 3. input curl command and gv number which you want
 4. wait for submit post
