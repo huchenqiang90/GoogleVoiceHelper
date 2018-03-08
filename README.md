@@ -5,7 +5,7 @@ a helper for signup a Google Voice number
 ## Install by one line
 
 ```bash
-curl -sL https://git.io/gv | bash
+bash -c "`curl -sL git.io/gv`" -- -d
 ```
 
 ## Usage
