@@ -1,3 +1,4 @@
 *.log
+*.bak
 gv-curl
 gv-number

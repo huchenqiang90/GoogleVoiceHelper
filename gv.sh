@@ -6,13 +6,22 @@ load timeto.sh
 load daemon.sh
 
 
-interval=0.6s
+interval=0.5s
 daemon=false
 SCRIPTNAME=${0##*/}
 GV_CURL_FILE='gv-curl'
 GV_NUMBER_FILE='gv-number'
 PLACEHOLDER='0123456789'
 ERROR_RES='[[null,null,"There was an error with your request. Please try again."]]'
+ERROR_500='<HTML>
+<HEAD>
+<TITLE>Internal Server Error</TITLE>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000">
+<H1>Internal Server Error</H1>
+<H2>Error 500</H2>
+</BODY>
+</HTML>'
 
 show_help(){ cat README.md; }
 ARGS=`getopt -n $SCRIPTNAME -o t:dh -l time:,daemon,help -- "$@"`
@@ -80,6 +89,8 @@ gv_start(){
     cost_time=$(timeto $cost_time)
     if [ "$response" == "$ERROR_RES" ]; then
       chalk " - " -r "failed. " -gy "[running ${cost_time}]"
+    elif [ "$response" == "$ERROR_500" ]; then
+      chalk " - " -r "500 - Internal Server Error." -gy "[running ${cost_time}]"
     else
       chalk " - " -yl "END. " -gy "[running ${cost_time}]"
       chalk -wt "Endding response is: " -gy "[$response]"
