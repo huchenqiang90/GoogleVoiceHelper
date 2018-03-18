@@ -1,0 +1,7 @@
+193872333a07e0cdffaf705bc15b15ac  chalk.sh
+40d98d0326588984d321c096c7c510c7  daemon.sh
+da8e013cf01b5152eba9a0add5224697  gv.sh
+1d2f471b2edc3986d3217860ae08bfe3  loader.sh
+c39e5cbe58ddc79f96c703553a15f87c  timeto.sh
+9e91fceebc4352bf8614703e740f527c  verifier.sh
+5f2a7536bd71ab4de08be8345d149914  README.md

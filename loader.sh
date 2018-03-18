@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-load(){
+load() {
   # Usage: load filename parameter
   # to isolate loader parameter from parent parameter
   local file="$1"

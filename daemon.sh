@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-daemonify(){
+daemonify() {
   if [ $# == 0 ]; then
     echo "daemon: make some comman or function to daemon"
-    echo "    eg: daemon command log-file"
+    echo "    eg: daemon command [log-file]"
     exit 1
   fi
 

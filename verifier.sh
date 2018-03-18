@@ -2,30 +2,29 @@
 # Integrity Verifier
 
 PROJECT_NAME="GoogleVoiceHelper"
-MAIN="gv.sh"
-HASH_FILE="gv.md5"
-SOURCE_URL="https://github.com/zthxxx/GoogleVoiceHelper/raw/master/"
+HASH_FILE="md5sum.txt"
+SOURCE_URL="https://github.com/zthxxx/${PROJECT_NAME}/raw/master/"
 
-download(){
+download() {
   file="$1"
   curl -sL "${SOURCE_URL}${file}" -o "$file"
 }
 
-exist_check(){
+exist_check() {
   file="$1"
   if [ ! -r "$file" ]; then
     download "$file"
   fi
 }
 
-integrity_verifier(){
+integrity_verifier() {
   exist_check "$HASH_FILE"
   if ! md5sum --quiet -c "$HASH_FILE"; then 
     exit 1
   fi
 }
 
-download_files(){
+download_files() {
   exist_check "$HASH_FILE"
   files=(`awk '{print $2}' "$HASH_FILE"`)
 
@@ -36,7 +35,7 @@ download_files(){
   integrity_verifier
 }
 
-verify(){
+verify() {
   if command -v git >/dev/null; then 
     git clone "https://github.com/zthxxx/${PROJECT_NAME}.git"
     cd "$PROJECT_NAME"
@@ -48,5 +47,7 @@ verify(){
 }
 
 verify
+
+MAIN="gv.sh"
 chmod +x "$MAIN"
 eval "./${MAIN}" "$@"

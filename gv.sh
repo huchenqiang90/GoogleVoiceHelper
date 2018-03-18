@@ -11,7 +11,7 @@ daemon=false
 SCRIPTNAME=${0##*/}
 GV_CURL_FILE='gv-curl'
 GV_NUMBER_FILE='gv-number'
-PLACEHOLDER='0123456789'
+PLACEHOLDER='GV-NUMBER-PLACEHOLDER'
 ERROR_RES='[[null,null,"There was an error with your request. Please try again."]]'
 ERROR_500='<HTML>
 <HEAD>
@@ -23,7 +23,7 @@ ERROR_500='<HTML>
 </BODY>
 </HTML>'
 
-show_help(){ cat README.md; }
+show_help() { cat README.md; }
 ARGS=`getopt -n $SCRIPTNAME -o t:dh -l time:,daemon,help -- "$@"`
 
 if [ $? -ne 0 ]; then
@@ -77,11 +77,11 @@ else
   fi
 fi
 
-gv_start(){
+gv_start() {
   chalk "\n" -wt "[`date +'%Y-%m-%d %H:%M:%S'`] " -gy "GV Helper start, apply for number " -wt "${gv_num}"
 
   begin_time=`date +%s`
-  gv_curl=${gv_curl/"%2B1${PLACEHOLDER}%22"/"%2B1${gv_num}%22"}
+  gv_curl=${gv_curl/"${PLACEHOLDER}"/"${gv_num}"}
   for (( i=1; i>0; i++ )); do
     chalk -n "[`date +'%Y-%m-%d %H:%M:%S'`] " -wt "#$i " -gy "submit post with num ${gv_num}..."
     response="$(eval $gv_curl)"
